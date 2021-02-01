@@ -10,12 +10,12 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime/middleware"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // NewPeerDeleteParams creates a new PeerDeleteParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewPeerDeleteParams() PeerDeleteParams {
 
 	return PeerDeleteParams{}
@@ -60,7 +60,6 @@ func (o *PeerDeleteParams) BindRequest(r *http.Request, route *middleware.Matche
 	if err := o.bindPeerID(rPeerID, rhkPeerID, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -76,7 +75,6 @@ func (o *PeerDeleteParams) bindDev(rawData []string, hasKey bool, formats strfmt
 
 	// Required: true
 	// Parameter is provided by construction from the route
-
 	o.Dev = raw
 
 	return nil
@@ -91,7 +89,6 @@ func (o *PeerDeleteParams) bindPeerID(rawData []string, hasKey bool, formats str
 
 	// Required: true
 	// Parameter is provided by construction from the route
-
 	o.PeerID = raw
 
 	return nil

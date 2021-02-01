@@ -10,12 +10,12 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime/middleware"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // NewDeviceGetParams creates a new DeviceGetParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewDeviceGetParams() DeviceGetParams {
 
 	return DeviceGetParams{}
@@ -50,7 +50,6 @@ func (o *DeviceGetParams) BindRequest(r *http.Request, route *middleware.Matched
 	if err := o.bindDev(rDev, rhkDev, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -66,7 +65,6 @@ func (o *DeviceGetParams) bindDev(rawData []string, hasKey bool, formats strfmt.
 
 	// Required: true
 	// Parameter is provided by construction from the route
-
 	o.Dev = raw
 
 	return nil

@@ -23,5 +23,6 @@ func DeviceListHandler(
 		)
 	}
 
-	return wireguard.NewDeviceListOK().WithPayload(devices)
+	list := wireguard.NewDeviceListOK().WithPayload(devices)
+	return list
 }

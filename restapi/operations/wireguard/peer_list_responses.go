@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	models "github.com/suquant/wgrest/models"
+	"github.com/suquant/wgrest/models"
 )
 
 // PeerListOKCode is the HTTP code returned for type PeerListOK

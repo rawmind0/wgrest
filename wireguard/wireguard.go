@@ -19,4 +19,5 @@ func ApplyAPI(api *operations.WgrestAPI) {
 	api.WireguardPeerListHandler = wireguard.PeerListHandlerFunc(PeerListHandler)
 	api.WireguardPeerGetHandler = wireguard.PeerGetHandlerFunc(PeerGetHandler)
 	api.WireguardPeerDeleteHandler = wireguard.PeerDeleteHandlerFunc(PeerDeleteHandler)
+
 }

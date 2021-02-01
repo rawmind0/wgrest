@@ -13,19 +13,19 @@ import (
 	"github.com/go-openapi/strfmt"
 )
 
-// NewPeerListParams creates a new PeerListParams object
+// NewPeerCorsParams creates a new PeerCorsParams object
 //
 // There are no default values defined in the spec.
-func NewPeerListParams() PeerListParams {
+func NewPeerCorsParams() PeerCorsParams {
 
-	return PeerListParams{}
+	return PeerCorsParams{}
 }
 
-// PeerListParams contains all the bound params for the peer list operation
+// PeerCorsParams contains all the bound params for the peer cors operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters PeerList
-type PeerListParams struct {
+// swagger:parameters PeerCors
+type PeerCorsParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -35,19 +35,29 @@ type PeerListParams struct {
 	  In: path
 	*/
 	Dev string
+	/*
+	  Required: true
+	  In: path
+	*/
+	PeerID string
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewPeerListParams() beforehand.
-func (o *PeerListParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewPeerCorsParams() beforehand.
+func (o *PeerCorsParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
 
 	rDev, rhkDev, _ := route.Params.GetOK("dev")
 	if err := o.bindDev(rDev, rhkDev, route.Formats); err != nil {
+		res = append(res, err)
+	}
+
+	rPeerID, rhkPeerID, _ := route.Params.GetOK("peer_id")
+	if err := o.bindPeerID(rPeerID, rhkPeerID, route.Formats); err != nil {
 		res = append(res, err)
 	}
 	if len(res) > 0 {
@@ -57,7 +67,7 @@ func (o *PeerListParams) BindRequest(r *http.Request, route *middleware.MatchedR
 }
 
 // bindDev binds and validates parameter Dev from path.
-func (o *PeerListParams) bindDev(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *PeerCorsParams) bindDev(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -66,6 +76,20 @@ func (o *PeerListParams) bindDev(rawData []string, hasKey bool, formats strfmt.R
 	// Required: true
 	// Parameter is provided by construction from the route
 	o.Dev = raw
+
+	return nil
+}
+
+// bindPeerID binds and validates parameter PeerID from path.
+func (o *PeerCorsParams) bindPeerID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+	var raw string
+	if len(rawData) > 0 {
+		raw = rawData[len(rawData)-1]
+	}
+
+	// Required: true
+	// Parameter is provided by construction from the route
+	o.PeerID = raw
 
 	return nil
 }

@@ -6,14 +6,16 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
+	"context"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // WireguardDevice wireguard device
+//
 // swagger:model WireguardDevice
 type WireguardDevice struct {
 
@@ -103,7 +105,7 @@ func (m *WireguardDevice) validatePrivateKey(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MinLength("private_key", "body", string(*m.PrivateKey), 32); err != nil {
+	if err := validate.MinLength("private_key", "body", *m.PrivateKey, 32); err != nil {
 		return err
 	}
 
@@ -111,12 +113,34 @@ func (m *WireguardDevice) validatePrivateKey(formats strfmt.Registry) error {
 }
 
 func (m *WireguardDevice) validatePublicKey(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PublicKey) { // not required
 		return nil
 	}
 
-	if err := validate.MinLength("public_key", "body", string(m.PublicKey), 32); err != nil {
+	if err := validate.MinLength("public_key", "body", m.PublicKey, 32); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this wireguard device based on the context it is used
+func (m *WireguardDevice) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidatePublicKey(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *WireguardDevice) contextValidatePublicKey(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := validate.ReadOnly(ctx, "public_key", "body", string(m.PublicKey)); err != nil {
 		return err
 	}
 

@@ -23,12 +23,12 @@ func TestStorages(t *testing.T) {
 	}
 
 	testData := []TestData{
-		TestData{
+		{
 			Path:        "/tmp/wgrest.tmp",
 			Data:        data,
 			StorageType: storage.MemoryStorage,
 		},
-		TestData{
+		{
 			Path:        "/tmp/wgrest.tmp",
 			Data:        data,
 			StorageType: storage.DiskStorage,

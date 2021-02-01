@@ -10,12 +10,12 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime/middleware"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // NewPeerGetParams creates a new PeerGetParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewPeerGetParams() PeerGetParams {
 
 	return PeerGetParams{}
@@ -60,7 +60,6 @@ func (o *PeerGetParams) BindRequest(r *http.Request, route *middleware.MatchedRo
 	if err := o.bindPeerID(rPeerID, rhkPeerID, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -76,7 +75,6 @@ func (o *PeerGetParams) bindDev(rawData []string, hasKey bool, formats strfmt.Re
 
 	// Required: true
 	// Parameter is provided by construction from the route
-
 	o.Dev = raw
 
 	return nil
@@ -91,7 +89,6 @@ func (o *PeerGetParams) bindPeerID(rawData []string, hasKey bool, formats strfmt
 
 	// Required: true
 	// Parameter is provided by construction from the route
-
 	o.PeerID = raw
 
 	return nil

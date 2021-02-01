@@ -6,14 +6,16 @@ package models
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
-	strfmt "github.com/go-openapi/strfmt"
+	"context"
 
 	"github.com/go-openapi/errors"
+	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 )
 
 // WireguardPeer wireguard peer
+//
 // swagger:model WireguardPeer
 type WireguardPeer struct {
 
@@ -61,12 +63,11 @@ func (m *WireguardPeer) Validate(formats strfmt.Registry) error {
 }
 
 func (m *WireguardPeer) validatePresharedKey(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PresharedKey) { // not required
 		return nil
 	}
 
-	if err := validate.MinLength("preshared_key", "body", string(m.PresharedKey), 32); err != nil {
+	if err := validate.MinLength("preshared_key", "body", m.PresharedKey, 32); err != nil {
 		return err
 	}
 
@@ -74,12 +75,11 @@ func (m *WireguardPeer) validatePresharedKey(formats strfmt.Registry) error {
 }
 
 func (m *WireguardPeer) validatePrivateKey(formats strfmt.Registry) error {
-
 	if swag.IsZero(m.PrivateKey) { // not required
 		return nil
 	}
 
-	if err := validate.MinLength("private_key", "body", string(m.PrivateKey), 32); err != nil {
+	if err := validate.MinLength("private_key", "body", m.PrivateKey, 32); err != nil {
 		return err
 	}
 
@@ -92,7 +92,30 @@ func (m *WireguardPeer) validatePublicKey(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MinLength("public_key", "body", string(*m.PublicKey), 32); err != nil {
+	if err := validate.MinLength("public_key", "body", *m.PublicKey, 32); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this wireguard peer based on the context it is used
+func (m *WireguardPeer) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidatePeerID(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *WireguardPeer) contextValidatePeerID(ctx context.Context, formats strfmt.Registry) error {
+
+	if err := validate.ReadOnly(ctx, "peer_id", "body", string(m.PeerID)); err != nil {
 		return err
 	}
 

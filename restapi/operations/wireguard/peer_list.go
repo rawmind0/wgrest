@@ -8,7 +8,7 @@ package wireguard
 import (
 	"net/http"
 
-	middleware "github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/runtime/middleware"
 )
 
 // PeerListHandlerFunc turns a function with the right signature into a peer list handler
@@ -29,7 +29,7 @@ func NewPeerList(ctx *middleware.Context, handler PeerListHandler) *PeerList {
 	return &PeerList{Context: ctx, Handler: handler}
 }
 
-/*PeerList swagger:route GET /devices/{dev}/peers/ wireguard peerList
+/* PeerList swagger:route GET /devices/{dev}/peers/ wireguard peerList
 
 get wireguard device's peers
 
@@ -45,7 +45,6 @@ func (o *PeerList) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		r = rCtx
 	}
 	var Params = NewPeerListParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
@@ -56,7 +55,7 @@ func (o *PeerList) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 	var principal interface{}
 	if uprinc != nil {
-		principal = uprinc
+		principal = uprinc.(interface{}) // this is really a interface{}, I promise
 	}
 
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
@@ -65,7 +64,6 @@ func (o *PeerList) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

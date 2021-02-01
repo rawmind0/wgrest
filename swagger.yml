@@ -1,15 +1,13 @@
 swagger: "2.0"
 info:
   version: v1.0
-  title: WireGuard RESTful API
+  title: wgrest
   description: Manage WireGuard VPN tunnels by RESTful manner
 securityDefinitions:
   key:
     type: apiKey
     in: header
     name: Token
-security:
-  - key: []
 consumes:
   - application/json
 produces:
@@ -24,6 +22,8 @@ paths:
       operationId: DeviceCreate
       tags:
         - wireguard
+      security:
+        - key: []
       parameters:
         - name: device
           in: body
@@ -51,6 +51,8 @@ paths:
       operationId: DeviceList
       tags:
         - wireguard
+      security:
+        - key: []
       responses:
         200:
           description: ok
@@ -68,6 +70,8 @@ paths:
       operationId: DeviceGet
       tags:
         - wireguard
+      security:
+        - key: []
       parameters:
         - name: dev
           in: path
@@ -89,6 +93,8 @@ paths:
       operationId: DeviceDelete
       tags:
         - wireguard
+      security:
+        - key: []
       parameters:
         - name: dev
           in: path
@@ -109,6 +115,8 @@ paths:
       operationId: PeerList
       tags:
         - wireguard
+      security:
+        - key: []
       parameters:
         - name: dev
           in: path
@@ -132,6 +140,8 @@ paths:
       operationId: PeerCreate
       tags:
         - wireguard
+      security:
+        - key: []
       parameters:
         - name: dev
           in: path
@@ -161,6 +171,8 @@ paths:
       operationId: PeerGet
       tags:
         - wireguard
+      security:
+        - key: []
       parameters:
         - name: dev
           in: path
@@ -186,6 +198,8 @@ paths:
       operationId: PeerDelete
       tags:
         - wireguard
+      security:
+        - key: []
       parameters:
         - name: dev
           in: path

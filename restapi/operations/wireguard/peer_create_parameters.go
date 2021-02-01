@@ -6,20 +6,22 @@ package wireguard
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"io"
 	"net/http"
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/strfmt"
+	"github.com/go-openapi/validate"
 
-	strfmt "github.com/go-openapi/strfmt"
-
-	models "github.com/suquant/wgrest/models"
+	"github.com/suquant/wgrest/models"
 )
 
 // NewPeerCreateParams creates a new PeerCreateParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewPeerCreateParams() PeerCreateParams {
 
 	return PeerCreateParams{}
@@ -65,7 +67,7 @@ func (o *PeerCreateParams) BindRequest(r *http.Request, route *middleware.Matche
 		var body models.WireguardPeer
 		if err := route.Consumer.Consume(r.Body, &body); err != nil {
 			if err == io.EOF {
-				res = append(res, errors.Required("peer", "body"))
+				res = append(res, errors.Required("peer", "body", ""))
 			} else {
 				res = append(res, errors.NewParseError("peer", "body", "", err))
 			}
@@ -75,12 +77,17 @@ func (o *PeerCreateParams) BindRequest(r *http.Request, route *middleware.Matche
 				res = append(res, err)
 			}
 
+			ctx := validate.WithOperationRequest(context.Background())
+			if err := body.ContextValidate(ctx, route.Formats); err != nil {
+				res = append(res, err)
+			}
+
 			if len(res) == 0 {
 				o.Peer = &body
 			}
 		}
 	} else {
-		res = append(res, errors.Required("peer", "body"))
+		res = append(res, errors.Required("peer", "body", ""))
 	}
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
@@ -97,7 +104,6 @@ func (o *PeerCreateParams) bindDev(rawData []string, hasKey bool, formats strfmt
 
 	// Required: true
 	// Parameter is provided by construction from the route
-
 	o.Dev = raw
 
 	return nil

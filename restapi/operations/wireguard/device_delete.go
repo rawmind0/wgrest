@@ -8,7 +8,7 @@ package wireguard
 import (
 	"net/http"
 
-	middleware "github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/runtime/middleware"
 )
 
 // DeviceDeleteHandlerFunc turns a function with the right signature into a device delete handler
@@ -29,7 +29,7 @@ func NewDeviceDelete(ctx *middleware.Context, handler DeviceDeleteHandler) *Devi
 	return &DeviceDelete{Context: ctx, Handler: handler}
 }
 
-/*DeviceDelete swagger:route DELETE /devices/{dev} wireguard deviceDelete
+/* DeviceDelete swagger:route DELETE /devices/{dev} wireguard deviceDelete
 
 delete wireguard interface
 
@@ -45,7 +45,6 @@ func (o *DeviceDelete) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		r = rCtx
 	}
 	var Params = NewDeviceDeleteParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
@@ -56,7 +55,7 @@ func (o *DeviceDelete) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 	var principal interface{}
 	if uprinc != nil {
-		principal = uprinc
+		principal = uprinc.(interface{}) // this is really a interface{}, I promise
 	}
 
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
@@ -65,7 +64,6 @@ func (o *DeviceDelete) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

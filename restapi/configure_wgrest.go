@@ -12,6 +12,8 @@ import (
 	runtime "github.com/go-openapi/runtime"
 	middleware "github.com/go-openapi/runtime/middleware"
 
+	"github.com/rs/cors"
+
 	"github.com/suquant/wgrest/restapi/operations"
 	"github.com/suquant/wgrest/restapi/operations/wireguard"
 	wireguardHandlers "github.com/suquant/wgrest/wireguard"
@@ -23,13 +25,28 @@ var authFlags = struct {
 	Token string `long:"token" description:"authentication token"`
 }{}
 
+var corsFlags = struct {
+	AllowOrigins     []string `long:"cors-allow-origins" description:"Configure cors Access-Control-Allow-Origin header"`
+	AllowCredentials bool     `long:"cors-allow-credentials" description:"Enable cors Access-Control-Allow-Credentials header"`
+	Debug            bool     `long:"cors-debug" description:"Enable cors debug"`
+}{
+	AllowOrigins:     []string{"*"},
+	AllowCredentials: false,
+	Debug:            false,
+}
+
 func configureFlags(api *operations.WgrestAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
 	api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{
-		swag.CommandLineOptionsGroup{
+		{
 			ShortDescription: "Auth flags",
 			LongDescription:  "Authentication flags",
 			Options:          &authFlags,
+		},
+		{
+			ShortDescription: "Cors Options",
+			LongDescription:  "Cors options",
+			Options:          &corsFlags,
 		},
 	}
 }
@@ -137,5 +154,19 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // The middleware configuration happens before anything, this middleware also applies to serving the swagger.json document.
 // So this is a good place to plug in a panic handling middleware, logging and metrics
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
-	return handler
+	c := cors.Options{
+		AllowedOrigins:   corsFlags.AllowOrigins,
+		AllowCredentials: corsFlags.AllowCredentials,
+		AllowedHeaders:   []string{"token", "content-type"},
+		AllowedMethods:   []string{"GET", "POST", "DELETE"},
+		Debug:            corsFlags.Debug,
+	}
+	// Force AllowCrendential falso if origins includes '*'
+	for origin := range c.AllowedOrigins {
+		if origin == '*' {
+			c.AllowCredentials = false
+			break
+		}
+	}
+	return cors.New(c).Handler(handler)
 }

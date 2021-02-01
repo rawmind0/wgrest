@@ -6,8 +6,9 @@ import (
 	"log"
 	"os"
 
-	loads "github.com/go-openapi/loads"
+	"github.com/go-openapi/loads"
 	flags "github.com/jessevdk/go-flags"
+
 	"github.com/suquant/wgrest/restapi"
 	"github.com/suquant/wgrest/restapi/operations"
 )
@@ -27,9 +28,8 @@ func main() {
 	defer server.Shutdown()
 
 	parser := flags.NewParser(server, flags.Default)
-	parser.ShortDescription = "WireGuard RESTful API"
+	parser.ShortDescription = "wgrest"
 	parser.LongDescription = "Manage WireGuard VPN tunnels by RESTful manner"
-
 	server.ConfigureFlags()
 	for _, optsGroup := range api.CommandLineOptionsGroups {
 		_, err := parser.AddGroup(optsGroup.ShortDescription, optsGroup.LongDescription, optsGroup.Options)

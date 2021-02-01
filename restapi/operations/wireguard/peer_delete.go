@@ -8,7 +8,7 @@ package wireguard
 import (
 	"net/http"
 
-	middleware "github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/runtime/middleware"
 )
 
 // PeerDeleteHandlerFunc turns a function with the right signature into a peer delete handler
@@ -29,7 +29,7 @@ func NewPeerDelete(ctx *middleware.Context, handler PeerDeleteHandler) *PeerDele
 	return &PeerDelete{Context: ctx, Handler: handler}
 }
 
-/*PeerDelete swagger:route DELETE /devices/{dev}/peers/{peer_id} wireguard peerDelete
+/* PeerDelete swagger:route DELETE /devices/{dev}/peers/{peer_id} wireguard peerDelete
 
 delete wireguard's peer
 
@@ -45,7 +45,6 @@ func (o *PeerDelete) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		r = rCtx
 	}
 	var Params = NewPeerDeleteParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
@@ -56,7 +55,7 @@ func (o *PeerDelete) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 	var principal interface{}
 	if uprinc != nil {
-		principal = uprinc
+		principal = uprinc.(interface{}) // this is really a interface{}, I promise
 	}
 
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
@@ -65,7 +64,6 @@ func (o *PeerDelete) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

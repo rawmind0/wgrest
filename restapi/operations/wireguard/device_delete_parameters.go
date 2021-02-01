@@ -10,12 +10,12 @@ import (
 
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime/middleware"
-
-	strfmt "github.com/go-openapi/strfmt"
+	"github.com/go-openapi/strfmt"
 )
 
 // NewDeviceDeleteParams creates a new DeviceDeleteParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewDeviceDeleteParams() DeviceDeleteParams {
 
 	return DeviceDeleteParams{}
@@ -50,7 +50,6 @@ func (o *DeviceDeleteParams) BindRequest(r *http.Request, route *middleware.Matc
 	if err := o.bindDev(rDev, rhkDev, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -66,7 +65,6 @@ func (o *DeviceDeleteParams) bindDev(rawData []string, hasKey bool, formats strf
 
 	// Required: true
 	// Parameter is provided by construction from the route
-
 	o.Dev = raw
 
 	return nil

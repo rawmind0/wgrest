@@ -8,7 +8,7 @@ package wireguard
 import (
 	"net/http"
 
-	middleware "github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/runtime/middleware"
 )
 
 // PeerCreateHandlerFunc turns a function with the right signature into a peer create handler
@@ -29,7 +29,7 @@ func NewPeerCreate(ctx *middleware.Context, handler PeerCreateHandler) *PeerCrea
 	return &PeerCreate{Context: ctx, Handler: handler}
 }
 
-/*PeerCreate swagger:route POST /devices/{dev}/peers/ wireguard peerCreate
+/* PeerCreate swagger:route POST /devices/{dev}/peers/ wireguard peerCreate
 
 add peer to wireguard device
 
@@ -45,7 +45,6 @@ func (o *PeerCreate) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 		r = rCtx
 	}
 	var Params = NewPeerCreateParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
@@ -56,7 +55,7 @@ func (o *PeerCreate) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 	var principal interface{}
 	if uprinc != nil {
-		principal = uprinc
+		principal = uprinc.(interface{}) // this is really a interface{}, I promise
 	}
 
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
@@ -65,7 +64,6 @@ func (o *PeerCreate) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

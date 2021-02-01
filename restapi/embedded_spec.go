@@ -31,12 +31,17 @@ func init() {
   "swagger": "2.0",
   "info": {
     "description": "Manage WireGuard VPN tunnels by RESTful manner",
-    "title": "WireGuard RESTful API",
+    "title": "wgrest",
     "version": "v1.0"
   },
   "paths": {
     "/devices/": {
       "get": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "tags": [
           "wireguard"
         ],
@@ -61,6 +66,11 @@ func init() {
         }
       },
       "post": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "tags": [
           "wireguard"
         ],
@@ -103,6 +113,11 @@ func init() {
     },
     "/devices/{dev}": {
       "get": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "tags": [
           "wireguard"
         ],
@@ -135,6 +150,11 @@ func init() {
         }
       },
       "delete": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "tags": [
           "wireguard"
         ],
@@ -166,6 +186,11 @@ func init() {
     },
     "/devices/{dev}/peers/": {
       "get": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "tags": [
           "wireguard"
         ],
@@ -201,6 +226,11 @@ func init() {
         }
       },
       "post": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "tags": [
           "wireguard"
         ],
@@ -246,6 +276,11 @@ func init() {
     },
     "/devices/{dev}/peers/{peer_id}": {
       "get": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "tags": [
           "wireguard"
         ],
@@ -284,6 +319,11 @@ func init() {
         }
       },
       "delete": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "tags": [
           "wireguard"
         ],
@@ -400,12 +440,7 @@ func init() {
       "name": "Token",
       "in": "header"
     }
-  },
-  "security": [
-    {
-      "key": []
-    }
-  ]
+  }
 }`))
 	FlatSwaggerJSON = json.RawMessage([]byte(`{
   "consumes": [
@@ -421,12 +456,17 @@ func init() {
   "swagger": "2.0",
   "info": {
     "description": "Manage WireGuard VPN tunnels by RESTful manner",
-    "title": "WireGuard RESTful API",
+    "title": "wgrest",
     "version": "v1.0"
   },
   "paths": {
     "/devices/": {
       "get": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "tags": [
           "wireguard"
         ],
@@ -451,6 +491,11 @@ func init() {
         }
       },
       "post": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "tags": [
           "wireguard"
         ],
@@ -493,6 +538,11 @@ func init() {
     },
     "/devices/{dev}": {
       "get": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "tags": [
           "wireguard"
         ],
@@ -525,6 +575,11 @@ func init() {
         }
       },
       "delete": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "tags": [
           "wireguard"
         ],
@@ -556,6 +611,11 @@ func init() {
     },
     "/devices/{dev}/peers/": {
       "get": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "tags": [
           "wireguard"
         ],
@@ -591,6 +651,11 @@ func init() {
         }
       },
       "post": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "tags": [
           "wireguard"
         ],
@@ -636,6 +701,11 @@ func init() {
     },
     "/devices/{dev}/peers/{peer_id}": {
       "get": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "tags": [
           "wireguard"
         ],
@@ -674,6 +744,11 @@ func init() {
         }
       },
       "delete": {
+        "security": [
+          {
+            "key": []
+          }
+        ],
         "tags": [
           "wireguard"
         ],
@@ -790,11 +865,6 @@ func init() {
       "name": "Token",
       "in": "header"
     }
-  },
-  "security": [
-    {
-      "key": []
-    }
-  ]
+  }
 }`))
 }

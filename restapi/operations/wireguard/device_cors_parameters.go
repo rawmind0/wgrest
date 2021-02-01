@@ -13,19 +13,19 @@ import (
 	"github.com/go-openapi/strfmt"
 )
 
-// NewPeerListParams creates a new PeerListParams object
+// NewDeviceCorsParams creates a new DeviceCorsParams object
 //
 // There are no default values defined in the spec.
-func NewPeerListParams() PeerListParams {
+func NewDeviceCorsParams() DeviceCorsParams {
 
-	return PeerListParams{}
+	return DeviceCorsParams{}
 }
 
-// PeerListParams contains all the bound params for the peer list operation
+// DeviceCorsParams contains all the bound params for the device cors operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters PeerList
-type PeerListParams struct {
+// swagger:parameters DeviceCors
+type DeviceCorsParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -40,8 +40,8 @@ type PeerListParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewPeerListParams() beforehand.
-func (o *PeerListParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewDeviceCorsParams() beforehand.
+func (o *DeviceCorsParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
@@ -57,7 +57,7 @@ func (o *PeerListParams) BindRequest(r *http.Request, route *middleware.MatchedR
 }
 
 // bindDev binds and validates parameter Dev from path.
-func (o *PeerListParams) bindDev(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *DeviceCorsParams) bindDev(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
