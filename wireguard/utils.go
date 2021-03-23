@@ -183,6 +183,11 @@ func getPeerByWGPeer(peer wgtypes.Peer) (*models.WireguardPeer, error) {
 		presharedKey = peer.PresharedKey.String()
 	}
 
+	endPoint := ""
+	if peer.Endpoint != nil {
+		endPoint = peer.Endpoint.String()
+	}
+
 	peerID, err := getPeerID(peer)
 	if err != nil {
 		return nil, err
@@ -193,6 +198,7 @@ func getPeerByWGPeer(peer wgtypes.Peer) (*models.WireguardPeer, error) {
 		PresharedKey: presharedKey,
 		AllowedIps:   allowedIPs,
 		PeerID:       peerID,
+		EndPoint:     endPoint,
 	}, nil
 }
 

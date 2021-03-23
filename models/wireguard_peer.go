@@ -22,6 +22,9 @@ type WireguardPeer struct {
 	// allowed ips
 	AllowedIps []string `json:"allowed_ips"`
 
+	// end point
+	EndPoint string `json:"end_point,omitempty"`
+
 	// peer id
 	// Read Only: true
 	PeerID string `json:"peer_id,omitempty"`

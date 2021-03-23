@@ -415,6 +415,9 @@ func init() {
             "type": "string"
           }
         },
+        "end_point": {
+          "type": "string"
+        },
         "peer_id": {
           "type": "string",
           "readOnly": true
@@ -839,6 +842,9 @@ func init() {
           "items": {
             "type": "string"
           }
+        },
+        "end_point": {
+          "type": "string"
         },
         "peer_id": {
           "type": "string",
