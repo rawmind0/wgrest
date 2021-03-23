@@ -264,6 +264,8 @@ definitions:
       preshared_key:
         type: string
         minLength: 32
+      end_point :
+        type: string
       allowed_ips:
         type: array
         items:
